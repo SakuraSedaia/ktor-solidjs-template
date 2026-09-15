@@ -1,0 +1,43 @@
+name: Feature request
+description: Suggest an improvement to the template
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: Explain the use case so the proposal can be evaluated as a reusable template feature.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I searched the existing issues for a similar proposal.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What recurring problem would this solve for template users?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the desired behavior and how it fits the template.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe workarounds or other approaches you considered.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add examples, links, mockups, or other useful context.
