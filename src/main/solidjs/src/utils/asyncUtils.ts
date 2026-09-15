@@ -45,7 +45,13 @@ interface AsyncFetchProps {
  * ```
  */
 export async function asyncFetch<DataType>({apiRoute, errorMessage = "Failed to fetch data",}: AsyncFetchProps): Promise<DataType> {
-  const res = await fetch(`${apiRoot}/${apiRoute}`)
+  const parsedRoute = `${apiRoot}/${apiRoute}`
+  console.log(`Sending request to ${parsedRoute}`)
+
+  const res = await fetch(parsedRoute)
+
+  console.log(res.status, res.headers.get("content-type"));
+  console.log(`Received: ${await res.clone().text()}`);
 
   if (!res.ok) throw new Error(`${errorMessage}: ${res.status}`)
 
