@@ -1,7 +1,13 @@
 import { Title } from '@solidjs/meta';
 import { query, type RouteDefinition, type RouteProps } from '@solidjs/router';
-import {createMemo, Errored, Loading} from 'solid-js';
+import {createMemo, Loading} from 'solid-js';
 import { paths } from '~/router';
+import {asyncFetch} from "~/utils/asyncUtils";
+
+interface User {
+  name: string,
+  title: string
+}
 
 // Async data loading: a query (cached per key) read through a memo — the
 // surrounding <Loading> boundary (in App.tsx) shows its fallback until the
@@ -9,17 +15,14 @@ import { paths } from '~/router';
 const getUser = query(async (id: string) => {
   // Same-origin URLs need an explicit origin when this runs during SSR
   // (getRequestEvent() is undefined in the browser, where location wins).
-  const res = await fetch(`/api/v1/users/${id}`);
 
-  console.log(res.status, res.headers.get("content-type"));
-  console.log(await res.clone().text());
-
-  if (!res.ok) return { name: 'Unknown', title: `No such user, ${res.status},  ${res.statusText}`}
-
-  const user: { name: string; title: string } =
-    await res.json();
-
-  return user ?? { name: 'Unknown', title: 'No such user' };
+  try {
+    return await asyncFetch<User>({
+      apiRoute: `users/${id}`
+    })
+  } catch (e) {
+    return { name: 'Unknown', title: `${e}`}
+  }
 }, 'user');
 
 // Starts the fetch as soon as navigation begins, before the page renders.
