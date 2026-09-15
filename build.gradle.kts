@@ -1,10 +1,21 @@
+import com.github.gradle.node.pnpm.task.PnpmInstallTask
+import com.github.gradle.node.pnpm.task.PnpmTask
+
 plugins {
   alias(libs.plugins.kotlin.jvm)
   alias(ktorLibs.plugins.ktor)
   alias(libs.plugins.kotlin.serialization)
+  id("com.github.node-gradle.node") version "7.1.0"
 }
 
-group = "org.sedaiadesigns"
+node {
+  version = "22.18.0"
+  pnpmVersion = "10.33.2"
+  download = true
+  nodeProjectDir = file("src/main/solidjs")
+}
+
+group = "com.example"
 version = "1.0.0-SNAPSHOT"
 
 application {
@@ -24,7 +35,7 @@ dependencies {
   implementation(ktorLibs.server.statusPages)
   implementation(libs.hayden.khealth)
   implementation(libs.logback.classic)
-  
+
   testImplementation(kotlin("test"))
   testImplementation(ktorLibs.server.testHost)
 }
@@ -32,43 +43,68 @@ dependencies {
 val solidJsDirectory = layout.projectDirectory.dir("src/main/solidjs")
 val solidJsOutput = solidJsDirectory.dir("dist/client")
 
-tasks.processResources {
-  dependsOn(buildSolidJs)
-  
-  from(solidJsOutput) {
-    into("static")
-  }
+val pnpmInstall = tasks.named<PnpmInstallTask>("pnpmInstall") {
+  args.set(listOf("--frozen-lockfile"))
 }
 
-val pnpmInstall by tasks.registering(Exec::class) {
-  description = "Installs the SolidJS Dependencies"
-  group = "build"
-  
-  workingDir(solidJsDirectory)
-  environment("CI", "true")
-  commandLine("/Users/Sakura/Library/pnpm/pnpm", "install", "--frozen-lockfile")
-  
-  inputs.files(
-    solidJsDirectory.file("package.json"),
-    solidJsDirectory.file("pnpm-lock.yaml"),
-    solidJsDirectory.file("pnpm-workspace.yaml"),
-  )
-  outputs.dir(solidJsDirectory.dir("node_modules"))
-}
-
-val buildSolidJs by tasks.registering(Exec::class) {
+val buildSolidJs = tasks.register<PnpmTask>("buildSolidJs") {
   description = "Builds the SolidJS frontend"
   group = "build"
-  
+
   dependsOn(pnpmInstall)
-  workingDir(solidJsDirectory)
-  environment("CI", "true")
-  commandLine("/Users/Sakura/Library/pnpm/pnpm", "build")
-  
+  environment.put("CI", "true")
+  args.set(listOf("build"))
+
   inputs.files(
     fileTree(solidJsDirectory) {
       exclude("node_modules/**", "dist/**")
     }
   )
   outputs.dir(solidJsOutput)
+}
+
+val testSolidJs = tasks.register<PnpmTask>("testSolidJs") {
+  description = "Runs the SolidJS test suite"
+  group = "verification"
+
+  dependsOn(pnpmInstall)
+  environment.put("CI", "true")
+  args.set(listOf("test", "--run"))
+}
+
+val lintSolidJs = tasks.register<PnpmTask>("lintSolidJs") {
+  description = "Checks the SolidJS source with Oxlint"
+  group = "verification"
+
+  dependsOn(pnpmInstall)
+  environment.put("CI", "true")
+  args.set(listOf("lint"))
+}
+
+val typeCheckSolidJs = tasks.register<PnpmTask>("typeCheckSolidJs") {
+  description = "Checks the SolidJS TypeScript types"
+  group = "verification"
+
+  dependsOn(pnpmInstall)
+  environment.put("CI", "true")
+  args.set(listOf("exec", "tsc", "--noEmit"))
+}
+
+val checkSolidJs = tasks.register("checkSolidJs") {
+  description = "Runs all SolidJS verification checks"
+  group = "verification"
+
+  dependsOn(testSolidJs, lintSolidJs, typeCheckSolidJs)
+}
+
+tasks.processResources {
+  dependsOn(buildSolidJs)
+
+  from(solidJsOutput) {
+    into("static")
+  }
+}
+
+tasks.test {
+  dependsOn(checkSolidJs)
 }

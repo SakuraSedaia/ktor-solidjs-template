@@ -1,3 +1,5 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
 pluginManagement {
   repositories {
     mavenCentral()
@@ -12,14 +14,29 @@ plugins {
 
 dependencyResolutionManagement {
   @Suppress("UnstableApiUsage")
+  repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+
+  @Suppress("UnstableApiUsage")
   repositories {
     mavenCentral()
     maven("https://jitpack.io")
+    ivy {
+      name = "Node.js"
+      url = uri("https://nodejs.org/dist")
+      patternLayout {
+        artifact("v[revision]/[artifact](-v[revision]-[classifier]).[ext]")
+      }
+      metadataSources {
+        artifact()
+      }
+      content {
+        includeModule("org.nodejs", "node")
+      }
+    }
   }
   versionCatalogs {
     create("ktorLibs").from("io.ktor:ktor-version-catalog:3.5.2")
   }
 }
 
-rootProject.name = "get-git-commit-history"
-
+rootProject.name = "ktor-solidjs-template"
