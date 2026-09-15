@@ -1,4 +1,4 @@
-package org.sedaiadesigns.routes
+package com.example.routes
 
 import io.ktor.server.http.content.singlePageApplication
 import io.ktor.server.routing.Route

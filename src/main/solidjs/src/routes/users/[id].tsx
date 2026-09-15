@@ -1,5 +1,5 @@
 import { Title } from '@solidjs/meta';
-import { query, type RouteDefinition, type RouteProps } from '@solidjs/router';
+import { query, type RouteProps } from '@solidjs/router';
 import {createMemo, Loading} from 'solid-js';
 import { paths } from '~/router';
 import {asyncFetch} from "~/utils/asyncUtils";
@@ -24,11 +24,6 @@ const getUser = query(async (id: string) => {
     return { name: 'Unknown', title: `${e}`}
   }
 }, 'user');
-
-// Starts the fetch as soon as navigation begins, before the page renders.
-export const route = {
-  preload: ({ params }) => void getUser(params.id!),
-} satisfies RouteDefinition;
 
 export default function User(props: RouteProps<'/users/:id'>) {
   const user = createMemo(() => getUser(props.params.id));

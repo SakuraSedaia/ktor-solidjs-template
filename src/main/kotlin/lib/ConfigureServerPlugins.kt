@@ -1,12 +1,9 @@
-package org.sedaiadesigns.lib
+package com.example.lib
 
-import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.response.*
-import org.sedaiadesigns.lib.plugins.configureMonitoring
-import org.sedaiadesigns.lib.plugins.configureSerialization
-import org.sedaiadesigns.lib.plugins.configureStatusPages
+import com.example.lib.plugins.configureMonitoring
+import com.example.lib.plugins.configureSerialization
+import com.example.lib.plugins.configureStatusPages
 
 fun Application.configureServerPlugins() {
   configureStatusPages()

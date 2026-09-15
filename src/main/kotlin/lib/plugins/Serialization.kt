@@ -1,4 +1,4 @@
-package org.sedaiadesigns.lib.plugins
+package com.example.lib.plugins
 
 import io.ktor.server.application.*
 import io.ktor.serialization.kotlinx.json.*

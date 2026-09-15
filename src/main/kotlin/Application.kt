@@ -1,12 +1,12 @@
-package org.sedaiadesigns
+package com.example
 
 
 import io.ktor.server.application.Application
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
-import org.sedaiadesigns.lib.configureServerPlugins
-import org.sedaiadesigns.routes.apiRoutes
-import org.sedaiadesigns.routes.spaRoutes
+import com.example.lib.configureServerPlugins
+import com.example.routes.apiRoutes
+import com.example.routes.spaRoutes
 
 /**
  * Configures the Ktor application by setting up necessary server plugins and routing.
@@ -25,7 +25,7 @@ import org.sedaiadesigns.routes.spaRoutes
  */
 fun Application.module() {
   configureServerPlugins()
-  
+
   routing {
     route("/api/v1") {
       apiRoutes()

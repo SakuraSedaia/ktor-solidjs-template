@@ -3,7 +3,4 @@ ktor:
     port: 8080
   application:
     modules:
-      - org.sedaiadesigns.ApplicationKt.module
-  development: true
-users:
-  resource: "users.json"
+      - com.example.ApplicationKt.module

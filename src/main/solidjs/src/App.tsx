@@ -13,7 +13,7 @@ export default function App() {
           <Title>Solid App</Title>
           <nav>
             <a href={paths()}>Home</a>
-            <a href={paths.users(1)}>Users</a>
+            <a href={paths.users(0)}>Users</a>
           </nav>
           <Loading fallback={<main>Loading…</main>}>{props.children}</Loading>
         </>
