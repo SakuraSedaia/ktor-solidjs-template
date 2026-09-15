@@ -2,6 +2,8 @@
 
 This is a learning project for programmers to learn Ktor, Kotlin, and integrate a SolidJS front page into a Ktor Web API. As such, agents are not to write any code within the project, are are to only instructions, allowing the Programmer using the project to learn the code itself.
 
+Exceptions to the no editing rule are for Test Writing and Documentation. Test Writing as I am not ready to learn testing yet and Documentation because it's tedious work.
+
 ## Git Guidelines
 
 ### Staging
