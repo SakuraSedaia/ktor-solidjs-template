@@ -1,8 +1,14 @@
 {
   "name": "ktor-solidjs-template",
-  "version": "0.0.0",
-  "description": "",
+  "version": "1.0.0",
+  "description": "SolidJS frontend for the Ktor and SolidJS project template",
+  "private": true,
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/sedaia-designs/ktor-and-solidjs-template.git"
+  },
+  "homepage": "https://gitlab.com/sedaia-designs/ktor-and-solidjs-template",
   "packageManager": "pnpm@10.33.2",
   "engines": {
     "node": ">=22.18.0 <23",
