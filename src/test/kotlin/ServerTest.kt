@@ -10,14 +10,13 @@ class ServerTest {
   
   @Test
   fun `test root endpoint`() = testApplication {
-    // loads default configuration
-    configure()
+    application { module() }
     // verify server root returns 200
     assertEquals(HttpStatusCode.OK, client.get("/").status)
   }
   @Test
   fun `serves Solid application`() = testApplication {
-    configure()
+    application { module() }
     
     val response = client.get("/")
     
@@ -27,7 +26,7 @@ class ServerTest {
   
   @Test
   fun `serves Solid application for client routes`() = testApplication {
-    configure()
+    application { module() }
     
     assertEquals(
       HttpStatusCode.OK,
@@ -37,10 +36,11 @@ class ServerTest {
   
   @Test
   fun `serves API independently`() = testApplication {
-    configure()
+    application { module() }
     
-    val response = client.get("/api/hello")
+    val response = client.get("/api/v1/hello")
     
     assertEquals(HttpStatusCode.OK, response.status)
+    assertEquals("{\"hello\":\"Ktor\"}", response.bodyAsText())
   }
 }
