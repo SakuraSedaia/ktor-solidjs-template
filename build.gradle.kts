@@ -14,6 +14,7 @@ application {
 kotlin {
   jvmToolchain(21)
 }
+
 dependencies {
   implementation(ktorLibs.serialization.kotlinx.json)
   implementation(ktorLibs.server.config.yaml)
@@ -38,7 +39,6 @@ tasks.processResources {
     into("static")
   }
 }
-
 
 val pnpmInstall by tasks.registering(Exec::class) {
   description = "Installs the SolidJS Dependencies"
