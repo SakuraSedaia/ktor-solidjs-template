@@ -1,55 +1,52 @@
-## Solid `with-sass` template
+# SolidJS Frontend
 
-This is `basic` plus [Sass](https://sass-lang.com) — same routes, same demo, same tests; `src/App.css` becomes `src/App.scss`, re-expressed with variables and nesting. The diff against `basic` is the documentation of what Sass changes.
+This directory contains the SolidJS frontend for the Ktor application. It is part of the root Gradle build rather than a separately deployed application.
 
-**Deployment contract** (inherited from `basic`): zero server dependencies — `vite build` emits a purely static site; deploy `dist/client` anywhere.
+## Requirements
 
-## How Sass fits this stack
+- Node.js 22.18 or newer
+- pnpm 10.33.2 or newer within the 10.x release line
 
-- Vite compiles `.scss` files natively once the `sass` package is installed — there is no plugin and no config; the delta is one devDependency and the file extension.
-- `src/App.scss` stays imported by `src/App.tsx`, so it flows into the prerendered document shell exactly like any app CSS; nothing about the turnkey setup changes. Everything Sass compiles to plain CSS at build time and ships zero runtime.
-- Scoped styles work the same way: name a file `*.module.scss` and import it for CSS-modules class objects.
-- If an `.scss` import fails, the `sass` package is missing — Vite names the fix in its error.
+Install the dependencies from this directory with the committed lockfile:
 
-Everything else — file-system routing, data loading, testing, the one-boolean `ssr: true` flip — is `basic`; see its README.
-
-## Usage
-
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
-
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
-
-```bash
-$ npm install # or pnpm install or yarn install
+```shell
+pnpm install --frozen-lockfile
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+## Development
 
-## Available Scripts
+Run the Ktor backend from the repository root:
 
-In the project directory, you can run:
+```shell
+./gradlew run
+```
 
-### `npm run dev` or `npm start`
+In a second terminal, start Vite from this directory:
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```shell
+pnpm dev
+```
 
-The page will reload if you make edits.<br>
+Open <http://localhost:3000>. Vite proxies requests under `/api` to the backend at <http://localhost:8080>.
 
-### `npm run build`
+## Commands
 
-Builds the static production site to `dist/client`, routes code-split.
+| Command                  | Description                                  |
+|--------------------------|----------------------------------------------|
+| `pnpm dev`               | Start the Vite development server            |
+| `pnpm build`             | Create the production frontend build         |
+| `pnpm serve`             | Preview the production frontend build        |
+| `pnpm test --run`        | Run the component tests once                 |
+| `pnpm lint`              | Check source files with Oxlint                |
+| `pnpm exec tsc --noEmit` | Check TypeScript types without emitting files |
 
-### `npm run serve`
+The production client files are generated in `dist/client`. The root Gradle build copies them into the Ktor application automatically; do not commit `dist` or deploy it separately when using the combined template.
 
-Serves the production build locally.
+## Structure
 
-### `npm test`
+- `src/routes` defines file-system routes.
+- `src/components` contains reusable UI components and their tests.
+- `src/utils` contains shared frontend utilities.
+- `vite.config.ts` configures SolidJS, routing, tests, and the development API proxy.
 
-Runs the test suite.
-
-## Deployment
-
-Deploy the `dist/client` folder to any static host provider (netlify, surge, now, etc.)
-
-## This project was created with the [Solid CLI](https://github.com/solidjs-community/solid-cli)
+The complete repository, including this frontend, is licensed under the root [MIT License](../../../LICENSE).
