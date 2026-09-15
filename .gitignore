@@ -1,0 +1,55 @@
+# Gradle and Kotlin build state
+.gradle/
+.kotlin/
+build/
+out/
+*.class
+*.hprof
+hs_err_pid*
+
+# IntelliJ IDEA project-local metadata
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Eclipse project-local metadata
+.project
+.classpath
+.settings/
+*.launch
+
+# SolidJS, Vite, and pnpm generated content
+src/main/solidjs/node_modules/
+src/main/solidjs/dist/
+src/main/solidjs/coverage/
+src/main/solidjs/.vite/
+src/main/solidjs/.output/
+src/main/solidjs/.vinxi/
+src/main/solidjs/.wrangler/
+src/main/solidjs/.vercel/
+src/main/solidjs/.netlify/
+src/main/solidjs/file-routes.d.ts
+src/main/solidjs/app.config.timestamp_*.js
+
+# Package-manager and development logs
+*.log
+pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local environment and secret files
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+
+# Temporary editor files
+*~
+*.swp
+*.swo
