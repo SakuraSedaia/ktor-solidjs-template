@@ -1,0 +1,39 @@
+default:
+  image: eclipse-temurin:21-jdk
+  interruptible: true
+
+stages:
+  - verify
+
+variables:
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle-user-home"
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - when: never
+
+cache:
+  key:
+    files:
+      - gradle/wrapper/gradle-wrapper.properties
+      - gradle/libs.versions.toml
+      - src/main/solidjs/pnpm-lock.yaml
+  paths:
+    - .gradle-user-home/caches/
+    - .gradle-user-home/wrapper/
+    - .gradle/nodejs/
+    - .gradle/pnpm/
+
+build-and-test:
+  stage: verify
+  timeout: 20 minutes
+  script:
+    - ./gradlew build --no-daemon --stacktrace
+  artifacts:
+    when: always
+    expire_in: 1 week
+    reports:
+      junit: build/test-results/test/*.xml
+    paths:
+      - build/reports/tests/test/
