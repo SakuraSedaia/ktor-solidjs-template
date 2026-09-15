@@ -16,7 +16,6 @@ workflow:
 cache:
   key:
     files:
-      - gradle/wrapper/gradle-wrapper.properties
       - gradle/libs.versions.toml
       - src/main/solidjs/pnpm-lock.yaml
   paths:
