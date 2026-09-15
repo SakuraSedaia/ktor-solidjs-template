@@ -7,3 +7,6 @@ ktor:
       - org.sedaiadesigns.SerializationKt.configureSerialization
       - org.sedaiadesigns.StatusPagesKt.configureStatusPages
       - org.sedaiadesigns.RoutingKt.configureRouting
+  development: true
+users:
+  resource: "users.json"
