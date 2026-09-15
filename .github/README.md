@@ -1,5 +1,3 @@
-# ktor-solidjs-template
-
 # Ktor + SolidJS Template
 
 > [!IMPORTANT]

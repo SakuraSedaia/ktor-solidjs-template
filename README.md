@@ -1,4 +1,4 @@
-# ktor-solidjs-template
+# Ktor + SolidJS Template
 
 This project was initially created using the [Ktor Project Generator](https://start.ktor.io).
 
