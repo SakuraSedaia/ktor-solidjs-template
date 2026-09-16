@@ -5,117 +5,122 @@
 > automation, and development history are hosted on
 > [GitLab](https://gitlab.com/sedaia-designs/ktor-and-solidjs-template).
 
-A reusable full-stack template combining a Ktor/Kotlin backend with a SolidJS 2
-frontend.
+A reusable full-stack application starter with a Ktor/Kotlin backend and a
+SolidJS 2 frontend. Gradle builds both modules and packages the frontend as
+static resources served by Ktor.
 
-## Primary Project
+To create a project from this template or replace the frontend framework, see
+the [usage instructions](../USAGE_INSTRUCTIONS.md).
+
+## Project Links
 
 - [Source repository](https://gitlab.com/sedaia-designs/ktor-and-solidjs-template)
 - [Work items](https://gitlab.com/sedaia-designs/ktor-and-solidjs-template/-/issues)
 - [Releases](https://gitlab.com/sedaia-designs/ktor-and-solidjs-template/-/releases)
 
-This project was initially created using the [Ktor Project Generator](https://start.ktor.io).
-
-Here are some useful links to get you started:
-
-* [Ktor Documentation](https://ktor.io/docs/home.html)
-* [Ktor GitHub page](https://github.com/ktorio/ktor)
-* [Ktor Slack chat](https://app.slack.com/client/T09229ZC6/C0A974TJ9). [Request an invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up).
-* [SolidJS V2 Documentation](https://v2.solidjs.com/)
-
-Want to use this template? Read the [Usage Instructions](../USAGE_INSTRUCTIONS.md)
-
 ## Features
 
-Here's a list of features included in this project:
+- Ktor Web API with JSON serialization and centralized error handling
+- SolidJS 2 single-page application with client-side routing
+- Same-origin API and frontend deployment
+- Vite development server with an API proxy to Ktor
+- Gradle-managed Node.js and pnpm versions
+- Integrated backend tests, frontend tests, linting, and type checking
+- Health and readiness endpoints
 
-| Name                                                                                  | Description                                                                        |
-|---------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| [Static Content](https://start.ktor.io/p/io.ktor/server-static-content)               | Serves static files from defined locations                                         |
-| [Status Pages](https://start.ktor.io/p/io.ktor/server-status-pages)                   | Provides exception handling for routes                                             |
-| [KHealth](https://start.ktor.io/p/dev.hayden/server-khealth)                          | A simple and customizable health plugin                                            |
-| [Content Negotiation](https://start.ktor.io/p/io.ktor/server-content-negotiation)     | Provides automatic content conversion according to Content-Type and Accept headers |
-| [kotlinx.serialization](https://start.ktor.io/p/io.ktor/server-kotlinx-serialization) | Handles JSON serialization using kotlinx.serialization library                     |
+The backend includes these Ktor components:
 
-## Building & Running
+| Component | Purpose |
+| --- | --- |
+| [Static Content](https://start.ktor.io/p/io.ktor/server-static-content) | Serves the built frontend |
+| [Status Pages](https://start.ktor.io/p/io.ktor/server-status-pages) | Handles application exceptions |
+| [KHealth](https://start.ktor.io/p/dev.hayden/server-khealth) | Provides health and readiness endpoints |
+| [Content Negotiation](https://start.ktor.io/p/io.ktor/server-content-negotiation) | Converts request and response content |
+| [kotlinx.serialization](https://start.ktor.io/p/io.ktor/server-kotlinx-serialization) | Serializes Kotlin objects as JSON |
 
-The project requires JDK 21, Node and pnpm are installed as Gradle Dependencies.
+## Requirements
 
-Use the Gradle wrapper from the project root:
+- JDK 21
 
-| Task                     | Description                                                         |
-|--------------------------|---------------------------------------------------------------------|
-| `./gradlew test`         | Run the Kotlin tests and all SolidJS verification checks            |
-| `./gradlew build`        | Build the SolidJS frontend and Ktor application                     |
-| `./gradlew run`          | Build the frontend, copy it into the server resources, and run Ktor |
-| `./gradlew pnpmInstall`  | Install the frontend dependencies from the lockfile                 |
-| `./gradlew buildFrontend` | Build the frontend                                                 |
+Use the included Gradle wrapper for all root project commands. Gradle downloads
+the pinned Node.js and pnpm versions, so separate global installations are not
+required for the combined build.
 
-Frontend checks are run from `src/main/solidjs`:
+## Quick Start
 
-| Command                  | Description                     |
-|--------------------------|---------------------------------|
-| `pnpm test --run`        | Run the SolidJS tests once      |
-| `pnpm lint`              | Check the frontend with Oxlint  |
-| `pnpm exec tsc --noEmit` | Check the TypeScript types      |
-
-If the server starts successfully, you'll see the following output:
-
-```
-2024-12-04 14:32:45.584 [main] INFO  Application - Application started in 0.303 seconds.
-2024-12-04 14:32:45.682 [main] INFO  Application - Responding at http://0.0.0.0:8080
-```
-
-The application is available at <http://localhost:8080> after the server starts.
-
-### Development
-
-For live frontend development, start the backend and the Vite development server in separate terminals.
-
-From the project root, run the Ktor server:
+Build and run the application from the repository root:
 
 ```shell
 ./gradlew run
 ```
 
-Then start the SolidJS development server:
+Open <http://localhost:8080>.
+
+## Development
+
+For frontend hot reloading, run the backend and Vite development server in
+separate terminals.
+
+Start Ktor from the repository root:
+
+```shell
+./gradlew run
+```
+
+Start Vite from the frontend module:
 
 ```shell
 cd src/main/solidjs
 pnpm dev
 ```
 
-Open <http://localhost:3000>. Vite proxies requests under `/api` to the Ktor server at <http://localhost:8080>.
+Open <http://localhost:3000>. Vite proxies `/api` requests to Ktor at
+<http://localhost:8080>.
 
-You can create IntelliJ IDEA run configurations for both commands to start them more easily during development.
+## Common Commands
 
-## Customize the Project Group
+Run Gradle commands from the repository root:
 
-The template uses `com.example` as a neutral placeholder for both the Gradle group and Kotlin package namespace. Replace it before starting a new project. A reverse-domain name that you control is conventional, such as `com.yourcompany` or `dev.yourname`.
+| Command | Purpose |
+| --- | --- |
+| `./gradlew test` | Run Kotlin tests and all frontend verification checks |
+| `./gradlew build` | Build the frontend and Ktor application |
+| `./gradlew run` | Build the frontend and start Ktor |
+| `./gradlew pnpmInstall` | Restore frontend dependencies from the lockfile |
+| `./gradlew buildFrontend` | Build only the frontend |
+| `./gradlew checkFrontend` | Run frontend tests, linting, and type checking |
 
-In IntelliJ IDEA, use **Refactor > Rename** on the `com.example` package so package declarations and imports are updated together. Then replace the remaining `com.example` values in:
+Frontend commands can also be run directly from `src/main/solidjs`:
 
-- `build.gradle.kts`, where it defines the Gradle `group`.
-- `src/main/resources/application.yaml`, where it identifies the Ktor application module.
-- `src/test/kotlin`, so tests remain in the same package as the application entry point.
-
-Search the entire project for `com.example` afterward to confirm that no placeholder references remain. Finally, run:
-
-```shell
-./gradlew clean test
-```
-
-The build will fail to start if the module name in `application.yaml` does not exactly match the package containing `Application.kt`.
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Start the Vite development server |
+| `pnpm build` | Create the production frontend build |
+| `pnpm test --run` | Run the frontend tests once |
+| `pnpm lint` | Check the frontend with Oxlint |
+| `pnpm exec tsc --noEmit` | Check TypeScript types |
 
 ## Project Layout
 
-- `src/main/kotlin` contains the Ktor application, plugins, and API routes.
-- `src/main/resources` contains the Ktor configuration and logging configuration.
-- `src/main/solidjs` contains the SolidJS frontend.
-- `src/test/kotlin` contains the Ktor integration tests.
+| Path | Purpose |
+| --- | --- |
+| `src/main/kotlin` | Ktor application, plugins, and API routes |
+| `src/main/resources` | Ktor and logging configuration |
+| `src/main/solidjs` | SolidJS frontend module |
+| `src/main/solidjs/dist/client` | Generated production frontend files |
+| `src/test/kotlin` | Ktor integration tests |
 
-The production frontend build is written to `src/main/solidjs/dist/client`. Gradle copies that client build into the Ktor resources so the backend can serve the application and API from the same origin.
+During the Gradle build, the generated files from `dist/client` are copied into
+the Ktor resources. The packaged application therefore serves the frontend and
+API from the same origin.
+
+## Documentation
+
+- [Template usage and customization](../USAGE_INSTRUCTIONS.md)
+- [Ktor documentation](https://ktor.io/docs/home.html)
+- [SolidJS 2 documentation](https://v2.solidjs.com/)
+- [Kotlin community Slack](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up)
 
 ## License
 
-This project, including both the Ktor backend and SolidJS frontend, is available under the [MIT License](../LICENSE).
+This project is available under the [MIT License](../LICENSE).
