@@ -40,15 +40,15 @@ dependencies {
   testImplementation(ktorLibs.server.testHost)
 }
 
-val solidJsDirectory = layout.projectDirectory.dir("src/main/solidjs")
-val solidJsOutput = solidJsDirectory.dir("dist/client")
+val frontendDirectory = layout.projectDirectory.dir("src/main/solidjs")
+val frontendOutput = frontendDirectory.dir("dist/client")
 
 val pnpmInstall = tasks.named<PnpmInstallTask>("pnpmInstall") {
   args.set(listOf("--frozen-lockfile"))
 }
 
-val buildSolidJs = tasks.register<PnpmTask>("buildSolidJs") {
-  description = "Builds the SolidJS frontend"
+val buildFrontend = tasks.register<PnpmTask>("buildFrontend") {
+  description = "Builds the frontend"
   group = "build"
 
   dependsOn(pnpmInstall)
@@ -56,15 +56,15 @@ val buildSolidJs = tasks.register<PnpmTask>("buildSolidJs") {
   args.set(listOf("build"))
 
   inputs.files(
-    fileTree(solidJsDirectory) {
+    fileTree(frontendDirectory) {
       exclude("node_modules/**", "dist/**")
     }
   )
-  outputs.dir(solidJsOutput)
+  outputs.dir(frontendOutput)
 }
 
-val testSolidJs = tasks.register<PnpmTask>("testSolidJs") {
-  description = "Runs the SolidJS test suite"
+val testFrontend = tasks.register<PnpmTask>("testFrontend") {
+  description = "Runs the Frontend test suite"
   group = "verification"
 
   dependsOn(pnpmInstall)
@@ -72,8 +72,8 @@ val testSolidJs = tasks.register<PnpmTask>("testSolidJs") {
   args.set(listOf("test", "--run"))
 }
 
-val lintSolidJs = tasks.register<PnpmTask>("lintSolidJs") {
-  description = "Checks the SolidJS source with Oxlint"
+val lintFrontend = tasks.register<PnpmTask>("lintFrontend") {
+  description = "Checks the Frontend source with Oxlint"
   group = "verification"
 
   dependsOn(pnpmInstall)
@@ -81,8 +81,8 @@ val lintSolidJs = tasks.register<PnpmTask>("lintSolidJs") {
   args.set(listOf("lint"))
 }
 
-val typeCheckSolidJs = tasks.register<PnpmTask>("typeCheckSolidJs") {
-  description = "Checks the SolidJS TypeScript types"
+val typeCheckFrontend = tasks.register<PnpmTask>("typeCheckFrontend") {
+  description = "Checks the Frontend TypeScript types"
   group = "verification"
 
   dependsOn(pnpmInstall)
@@ -90,21 +90,21 @@ val typeCheckSolidJs = tasks.register<PnpmTask>("typeCheckSolidJs") {
   args.set(listOf("exec", "tsc", "--noEmit"))
 }
 
-val checkSolidJs = tasks.register("checkSolidJs") {
-  description = "Runs all SolidJS verification checks"
+val checkFrontend = tasks.register("checkFrontend") {
+  description = "Runs all Frontend verification checks"
   group = "verification"
 
-  dependsOn(testSolidJs, lintSolidJs, typeCheckSolidJs)
+  dependsOn(testFrontend, lintFrontend, typeCheckFrontend)
 }
 
 tasks.processResources {
-  dependsOn(buildSolidJs)
+  dependsOn(buildFrontend)
 
-  from(solidJsOutput) {
+  from(frontendOutput) {
     into("static")
   }
 }
 
 tasks.test {
-  dependsOn(checkSolidJs)
+  dependsOn(checkFrontend)
 }
