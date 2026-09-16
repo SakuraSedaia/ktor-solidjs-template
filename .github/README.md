@@ -23,6 +23,8 @@ Here are some useful links to get you started:
 * [Ktor Slack chat](https://app.slack.com/client/T09229ZC6/C0A974TJ9). [Request an invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up).
 * [SolidJS V2 Documentation](https://v2.solidjs.com/)
 
+Want to use this template? Read the [Usage Instructions](../USAGE_INSTRUCTIONS.md)
+
 ## Features
 
 Here's a list of features included in this project:
@@ -47,7 +49,7 @@ Use the Gradle wrapper from the project root:
 | `./gradlew build`        | Build the SolidJS frontend and Ktor application                     |
 | `./gradlew run`          | Build the frontend, copy it into the server resources, and run Ktor |
 | `./gradlew pnpmInstall`  | Install the frontend dependencies from the lockfile                 |
-| `./gradlew buildSolidJs` | Build the SolidJS frontend                                          |
+| `./gradlew buildFrontend` | Build the frontend                                                 |
 
 Frontend checks are run from `src/main/solidjs`:
 

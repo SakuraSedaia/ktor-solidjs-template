@@ -1,8 +1,81 @@
-# Project Context
+# Repository Purpose
 
-This is a learning project for programmers to learn Ktor, Kotlin, and integrate a SolidJS front page into a Ktor Web API. As such, agents are not to write any code within the project, are are to only instructions, allowing the Programmer using the project to learn the code itself.
+This repository is a reusable starting point for building full-stack
+applications with a Ktor Web API and a JavaScript frontend. It began as a
+personal project for learning Ktor, Kotlin, SolidJS, and their integration, but
+the published template is intended for general application development rather
+than only as a learning exercise.
 
-Exceptions to the no editing rule are for Test Writing and Documentation. Test Writing as I am not ready to learn testing yet and Documentation because it's tedious work.
+The included SolidJS application provides a working foundation for the build,
+static-file serving, client routing, and API boundary. Projects created from the
+template are expected to extend or replace that example with their own
+application features.
+
+Treat changes as template maintenance, not application development:
+
+- Keep the starting application focused, generic, and easy to extend or replace.
+- Preserve a working end-to-end example of the frontend calling the Ktor API.
+- Avoid product-specific features, branding, credentials, deployment targets,
+  or assumptions that would make the template harder to reuse.
+- Keep the backend/frontend boundary framework-neutral where practical. SolidJS
+  may be replaced by another pnpm-based frontend by following
+  `USAGE_INSTRUCTIONS.md`.
+- Document setup choices and non-obvious integration constraints so users can
+  understand, reuse, and adapt them.
+
+## Agent Change Policy
+
+The repository owner uses maintenance of this template to learn the underlying
+Ktor and SolidJS implementation. This is a preference for the owner's workflow,
+not a limitation on how end users may use projects created from the template.
+
+Agents must not write or modify application, frontend, build, or configuration
+code. For those changes, inspect the repository, explain the relevant concepts,
+and give concrete instructions that allow the owner to implement the change.
+
+Agents may directly create or edit:
+
+- tests, because testing is not currently part of the owner's learning
+  scope; and
+- documentation, including repository guidance and usage instructions.
+
+Do not use those exceptions to make indirect application changes. Agents may
+run read-only inspection, builds, tests, linters, type checks, and the application
+when needed to diagnose or verify the owner's work. Clearly distinguish a
+verified result from a suggested change.
+
+## Project Setup
+
+Before working on the repository:
+
+1. Read this file, `README.md`, and the relevant part of
+   `USAGE_INSTRUCTIONS.md`.
+2. Inspect `git status` and the relevant diffs. The working tree may contain the
+   owner's unfinished work; preserve it and do not clean or rewrite it.
+3. Use the Gradle wrapper from the repository root. The project requires JDK 21,
+   while Gradle manages the pinned Node.js and pnpm versions. Do not require or
+   install a separate global Node.js or pnpm toolchain merely to build the
+   template.
+4. Keep the current project boundaries in mind:
+   - `src/main/kotlin` contains the Ktor application and API;
+   - `src/main/resources` contains server configuration;
+   - `src/main/solidjs` is the pnpm frontend module;
+   - `src/test/kotlin` contains Ktor integration tests; and
+   - the frontend production output is `src/main/solidjs/dist/client`, which
+     Gradle copies into the Ktor resources.
+5. Use `./gradlew pnpmInstall` when frontend dependencies must be restored. Do
+   not commit generated directories or files such as `.gradle`, `build`,
+   `node_modules`, `dist`, or `file-routes.d.ts`.
+6. Establish or verify the baseline with `./gradlew clean test` when appropriate
+   for the task. This runs the Kotlin tests plus the frontend tests, lint, and
+   TypeScript checks. Use `./gradlew run` only when runtime integration needs to
+   be checked.
+
+When helping someone create a project from this template, follow
+`USAGE_INSTRUCTIONS.md`. In particular, keep template maintenance separate from
+consumer customization: project names, package namespaces, repository URLs, and
+framework substitutions belong in the newly created project, not in this source
+template unless the user explicitly asks to change the template defaults.
 
 ## Git Guidelines
 
